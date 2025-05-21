@@ -6,24 +6,19 @@ const protegerRotaColaborador = async (req, res, next) => {
 
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
     try {
-      // Obter o token do cabeçalho
       token = req.headers.authorization.split(' ')[1];
-
-      // Verificar o token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-
-      // Obter o colaborador do token
       req.colaborador = await Colaborador.findById(decoded.id).select('-senha');
-
+      if (!req.colaborador) {
+        return res.status(401).json({ message: 'Colaborador não encontrado.' });
+      }
       next();
     } catch (error) {
       console.error(error);
-      res.status(401).json({ message: 'Não autorizado, token inválido' });
+      return res.status(401).json({ message: 'Não autorizado, token inválido' });
     }
-  }
-
-  if (!token) {
-    res.status(401).json({ message: 'Não autorizado, sem token' });
+  } else {
+    return res.status(401).json({ message: 'Não autorizado, sem token' });
   }
 };
 

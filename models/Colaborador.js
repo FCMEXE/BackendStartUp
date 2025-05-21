@@ -5,18 +5,23 @@ const { Schema } = mongoose; // Import Schema para maior clareza
 const colaboradorSchema = new Schema({
   nome: {
     type: String,
-    required: true
+    required: true,
+    unique: true, // Adicionado para garantir nomes únicos
+    trim: true
   },
   senha: {
     type: String,
-    required: true
+    required: true,
+    minlength: 6 // Sugestão: Adicione um tamanho mínimo para a senha
   },
   gerente: {
     type: Schema.Types.ObjectId, // Tipo ObjectId para referenciar outro documento do MongoDB
-    ref: 'Gerente', // Referencia o modelo 'Gerente'
-    required: true // Garante que cada colaborador esteja associado a um gerente
+    ref: 'Gerente', // Referencia o modelo 'Gerente' (certifique-se de ter um modelo 'Gerente.js')
+    required: true // Mantenha como true se todo colaborador DEVE ter um gerente
   },
   // Outros campos específicos do colaborador
+}, {
+  timestamps: true // Adiciona `createdAt` e `updatedAt`
 });
 
 colaboradorSchema.pre('save', async function(next) {
@@ -35,7 +40,8 @@ colaboradorSchema.methods.comparePassword = async function(candidatePassword) {
   try {
     return await bcrypt.compare(candidatePassword, this.senha);
   } catch (error) {
-    throw new Error(error);
+    // É uma boa prática lançar um erro específico ou retornar false aqui
+    throw new Error('Erro ao comparar senhas.');
   }
 };
 

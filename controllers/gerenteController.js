@@ -44,3 +44,26 @@ exports.loginGerente = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+// Listar todos os gerentes
+exports.listarGerentes = async (req, res) => {
+  try {
+    const gerentes = await Gerente.find();
+    res.status(200).json(gerentes);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao buscar gerentes' });
+  }
+};
+
+// Buscar gerente por ID
+exports.buscarGerentePorId = async (req, res) => {
+  try {
+    const gerente = await Gerente.findById(req.params.id);
+    if (!gerente) {
+      return res.status(404).json({ message: 'Gerente não encontrado' });
+    }
+    res.status(200).json(gerente);
+  } catch (err) {
+    res.status(500).json({ error: 'Erro ao buscar gerente por ID' });
+  }
+};
