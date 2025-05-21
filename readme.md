@@ -3,18 +3,20 @@ Express
 JWTToken
 
 
+✅ Instalar Node.js (vem com o npm)
 
+    Baixe em: https://nodejs.org (versão LTS)
 
+    Instale normalmente.
 
-Como fazer as requisições:
+    Teste no terminal:
+node -v
+npm -v
 
-Criar uma rota (POST):
+✅ Instalar dependências
 
-URL: http://localhost:3000/api/rotas/rotas
-Método: POST
-Headers: Inclua o Authorization: Bearer SEU_TOKEN_DE_GERENTE
-Body (raw - JSON): O JSON que você forneceu como exemplo.
-Listar rotas de um colaborador (GET):
+npm install express jsonwebtoken
+
 
 CRIAR GERENTE
 ![alt text](image-1.png)
