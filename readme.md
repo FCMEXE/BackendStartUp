@@ -23,6 +23,7 @@ Este projeto utiliza **Node.js**, **Express** e **JWT** para autenticação e co
 ```bash
 node -v
 npm -v
+```
 
 ✅ Instalar dependências
 
