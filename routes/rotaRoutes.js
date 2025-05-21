@@ -1,6 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { criarRota, listarRotasDoColaborador, buscarRotaDoColaborador } = require('../controllers/rotaController');
+
+const { 
+  criarRota, 
+  listarRotasDoColaborador, 
+  buscarRotaDoColaborador, 
+  listarTodasRotas 
+} = require('../controllers/rotaController');
+
 const { protegerRotaGerente } = require('../middleware/authMiddleware'); // Middleware para gerente
 const { protegerRotaColaborador } = require('../middleware/authColaboradorMiddleware'); // Middleware para colaborador
 
@@ -12,5 +19,8 @@ router.get('/colaboradores/:colaboradorId/rotas', protegerRotaColaborador, lista
 
 // Buscar rota específica do colaborador
 router.get('/colaboradores/:colaboradorId/rotas/:rotaId', protegerRotaColaborador, buscarRotaDoColaborador);
+
+// Listar todas as rotas (ex: para gerente ver tudo)
+router.get('/todas', protegerRotaGerente, listarTodasRotas);
 
 module.exports = router;
